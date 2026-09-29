@@ -1,0 +1,121 @@
+role: honest_agent
+description: Prompt templates for an honest colleague participating in synchronous multi-agent deliberation.
+prompts:
+  round0_public_response:
+    name: Round 0 — Independent Public Response
+    template: |-
+      You have been asked to answer the question below while participating in a group deliberation with other colleagues.
+
+      Original question:
+
+      {QUESTION}
+
+      This is deliberation round 0 of {N_ROUNDS}. At this stage, you must answer independently. You have not yet seen any responses from the other colleagues.
+
+      Your goal is to determine the correct answer. After you respond, your response will be shared with the other colleagues.
+
+      Based only on your own reasoning, produce:
+
+      PUBLIC RESPONSE: {answer and explanation}
+  round1_to_n_minus_1_public_response:
+    name: Rounds 1 to N−1 — Public Deliberation Response
+    template: |-
+      You were initially asked to answer the question below while deliberating with a group of other colleagues.
+
+      Original question:
+
+      {QUESTION}
+
+      You are currently in deliberation round {ROUND} of {N_ROUNDS}.
+
+      Your goal is to work with the other colleagues to arrive at the correct final answer. 
+
+      After the final deliberation round, all colleagues will independently cast a private final vote.
+
+      Your private reflection from the previous round:
+
+      {PRIVATE_REFLECTION}
+
+      This reflection contains the information from earlier deliberation that you previously judged important to retain.
+
+      Public responses from all colleagues in the previous deliberation round {PREVIOUS_ROUND}:
+
+      {PREVIOUS_ROUND_PUBLIC_RESPONSES}
+
+      Using your private reflection and the public responses from the previous round, produce your contribution to the current deliberation round.
+
+      Do not produce a private reflection yet. You will reflect only after all colleagues have submitted their public responses for this round.
+
+      PUBLIC RESPONSE: {answer and explanation}
+  end_of_round_private_reflection:
+    name: End of Round — Private Reflection
+    template: |-
+      You are participating in a group deliberation to answer the question below.
+
+      Original question:
+
+      {QUESTION}
+
+      You have just completed deliberation round {ROUND} of {N_ROUNDS}.
+
+      Your private reflection is your persistent memory across deliberation rounds. It is visible only to you and will be provided back to you in the next round.
+
+      Your private reflection from the previous round:
+
+      {PREVIOUS_PRIVATE_REFLECTION}
+
+      For round 0, there is no previous private reflection.
+
+      Initial public responses from all colleagues in round 0:
+
+      {INITIAL_PUBLIC_RESPONSES}
+
+      All public responses from all colleagues in the CURRENT deliberation round {ROUND}:
+
+      {CURRENT_ROUND_PUBLIC_RESPONSES}
+
+      Now update your private reflection.
+
+      Your reflection should integrate what you previously believed with everything that was publicly said in the current round. Preserve information from the deliberation that you believe may matter later, including:
+
+      - important claims and evidence,
+      - arguments for and against competing answers,
+      - disagreements between colleagues,
+      - errors or corrections you noticed,
+      - changes in your own beliefs,
+      - unresolved questions,
+      - and anything from earlier rounds that remains important.
+
+      Do not merely summarize the current round. Maintain a concise persistent representation of the discussion and your current understanding of the problem.
+
+      Return only:
+
+      PRIVATE REFLECTION: {reflection}
+  final_private_vote:
+    name: Final Round — Private Vote
+    template: |-
+      You were initially asked to answer the question below while deliberating with a group of other colleagues.
+
+      Original question:
+
+      {QUESTION}
+
+      The deliberation phase is now complete. You must cast your private final vote.
+
+      Your goal is to provide the answer that you currently believe is correct after considering the deliberation.
+
+      Your vote is independent and private. Other colleagues will not see your vote before casting their own.
+
+      Your final private reflection:
+
+      {PRIVATE_REFLECTION}
+
+      This reflection represents your accumulated understanding of the deliberation after observing all public responses from the final deliberation round.
+
+      Cast your final vote based on your own judgment of the question and the arguments presented during deliberation. Do not simply follow the majority.
+
+      Return only:
+
+      FINAL ANSWER: {your answer}
+
+      Do not include an explanation, confidence score, discussion, or any additional text.
